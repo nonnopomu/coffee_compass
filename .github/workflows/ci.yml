@@ -90,7 +90,7 @@ jobs:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/coffee_compass_test
           # REDIS_URL: redis://localhost:6379/0
-        run:
+        run: |
           bin/rails db:prepare
           bin/rails db:prepare bundle exec rspec
 
