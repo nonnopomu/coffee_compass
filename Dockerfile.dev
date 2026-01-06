@@ -1,0 +1,53 @@
+FROM ruby:3.3.10
+
+ENV APP=/rails \
+    LANG=C.UTF-8 \
+    TZ=Asia/Tokyo
+
+# Node/Yarn + Chrome + 便利ツール + 画像処理 + postgres client
+RUN set -eux; \
+  curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -; \
+  apt-get update -qq; \
+  apt-get install -y --no-install-recommends \
+    build-essential \
+    postgresql-client \
+    nodejs \
+    wget \
+    gnupg \
+    sudo \
+    imagemagick; \
+  install -m 0755 -d /etc/apt/keyrings; \
+  wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub \
+    | gpg --dearmor -o /etc/apt/keyrings/google-linux-signing.gpg; \
+  chmod a+r /etc/apt/keyrings/google-linux-signing.gpg; \
+  echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-linux-signing.gpg] http://dl.google.com/linux/chrome/deb/ stable main" \
+    > /etc/apt/sources.list.d/google-chrome.list; \
+  apt-get update -qq; \
+  apt-get install -y --no-install-recommends google-chrome-stable; \
+  npm install --global yarn; \
+  rm -rf /var/lib/apt/lists/*
+
+# ユーザー作成 (UID=1000)
+RUN groupadd -g 1000 rails \
+ && useradd -u 1000 -g rails -m rails \
+ && echo "rails ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+WORKDIR $APP
+RUN chown rails:rails $APP
+
+USER rails
+
+# Ruby deps
+COPY --chown=rails:rails Gemfile Gemfile.lock ./
+RUN bundle install
+
+# App code
+COPY --chown=rails:rails . .
+
+# package.json があるときだけ yarn install（将来追加してもOK）
+RUN if [ -f package.json ]; then yarn install; fi
+
+VOLUME ["/rails/node_modules"]
+
+# compose側で ./bin/dev を起動する前提（CMDは保険）
+CMD ["bash", "-lc", "rm -f tmp/pids/server.pid && ./bin/dev"]

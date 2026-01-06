@@ -1,0 +1,55 @@
+name: coffee_compass_app
+
+services:
+  db:
+    container_name: coffeecompass-db
+    image: postgres:16
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=coffee_compass_development
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    container_name: coffeecompass-web
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    shm_size: "2gb"
+    command: bash -lc "mkdir -p tmp/pids tmp/cache log && chmod -R 777 tmp log && rm -f tmp/pids/server.pid && ./bin/dev"
+    tty: true
+    stdin_open: true
+    restart: always
+    volumes:
+      - .:/rails
+      - bundle_data:/usr/local/bundle
+      - /rails/tmp
+      - /rails/log
+      - /rails/app/assets/builds
+      - /rails/public/assets
+      - /rails/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - RAILS_ENV=development
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=coffee_compass_development
+      - DATABASE_NAME_TEST=coffee_compass_test
+
+volumes:
+  postgres_data:
+  bundle_data:
