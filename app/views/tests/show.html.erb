@@ -1,0 +1,13 @@
+<div class="w-full max-w-2xl space-y-6 text-center">
+  <p class="text-sm text-gray-500">質問</p>
+  <h1 class="text-2xl font-semibold"><%= @question.text %></h1>
+
+  <div class="grid gap-3 sm:grid-cols-2">
+    <%= button_to "Yes", answer_test_path(@question, answer: "yes"), method: :post, class: "w-full rounded-lg bg-black px-4 py-3 text-white" %>
+    <%= button_to "No", answer_test_path(@question, answer: "no"), method: :post, class: "w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900" %>
+  </div>
+
+  <div class="text-sm text-gray-500">
+    <%= button_to "ひとつ前に戻る", back_test_path(@question), method: :post, class: "underline" %>
+  </div>
+</div>
