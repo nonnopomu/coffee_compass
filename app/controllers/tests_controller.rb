@@ -32,10 +32,9 @@ class TestsController < ApplicationController
     last = session[:answers].pop
 
     if last
-      prev_question = Question.find(last[:question_id])
-      redirect_to test_path(prev_question)
+      redirect_to test_path(last["question_id"])
     else
-      redirect_to start_tests_path
+      redirect_to root_path
     end
   end
 
