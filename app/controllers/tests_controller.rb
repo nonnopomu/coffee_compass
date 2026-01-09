@@ -15,7 +15,7 @@ class TestsController < ApplicationController
     question = Question.find(params[:id])
     answer = params[:answer]
 
-    branch = question.branches.find_by!(answer: answer)
+    branch = Branch.next_for(question, answer)
 
     session[:answers] ||= []
     session[:answers] << { question_id: question.id, answer: answer }
