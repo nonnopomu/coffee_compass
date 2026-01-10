@@ -3,11 +3,11 @@
   <h1 class="text-2xl font-semibold"><%= @question.text %></h1>
 
   <div class="grid gap-3 sm:grid-cols-2">
-    <%= button_to "Yes", answer_test_path(@question, answer: "yes"), method: :post, class: "w-full rounded-lg bg-black px-4 py-3 text-white" %>
-    <%= button_to "No", answer_test_path(@question, answer: "no"), method: :post, class: "w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900" %>
+    <%= button_to "Yes", answer_test_path(@question, answer: "yes"), method: :post, class: "w-full cursor-pointer rounded-lg bg-black px-4 py-3 text-white transition hover:-translate-y-0.5 hover:bg-black/90 hover:backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2" %>
+    <%= button_to "No", answer_test_path(@question, answer: "no"), method: :post, class: "w-full cursor-pointer rounded-lg border border-gray-300 px-4 py-3 text-gray-900 transition hover:-translate-y-0.5 hover:bg-white/80 hover:backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2" %>
   </div>
 
   <div class="text-sm text-gray-500">
-    <%= button_to "ひとつ前に戻る", back_test_path(@question), method: :post, class: "underline" %>
+    <%= button_to "ひとつ前に戻る", back_test_path(@question), method: :post, class: "cursor-pointer underline transition hover:text-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2" %>
   </div>
 </div>
