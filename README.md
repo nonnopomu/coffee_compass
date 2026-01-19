@@ -29,4 +29,4 @@
 
 ## デプロイ
 - Renderで公開
-- URL: https://coffee-compass-87m5.onrender.com/test/8/result
+- URL: https://coffee-compass-87m5.onrender.com
