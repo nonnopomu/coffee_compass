@@ -18,6 +18,9 @@
 ## 画面遷移図
 ![画面遷移図](docs/coffee_compass_screen_flow.png)
 
+## ER図
+![ER図](docs/er_diagram.png)
+
 ## 今後の改善ポイント
 - 質問・結果の管理画面の追加
 - コーヒー豆の画像や説明の充実
