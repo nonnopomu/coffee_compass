@@ -15,11 +15,15 @@
 - Hotwire (Turbo/Stimulus)
 - Tailwind CSS
 
+## 画面遷移図
+![画面遷移図](docs/coffee_compass_screen_flow.png)
+
 ## 今後の改善ポイント
 - 質問・結果の管理画面の追加
 - コーヒー豆の画像や説明の充実
 - 診断結果の共有機能
+- 診断の進捗表示（例：全6問中「3/6」やプログレスバー）
 
 ## デプロイ
 - Renderで公開
-- URL: https://example.com
+- URL: https://coffee-compass-87m5.onrender.com/test/8/result
